@@ -233,8 +233,8 @@ footer strong{color:var(--ink)}
       <div class="finish-box">
         <div>
           <h2>That's it.</h2>
-          <p>Four clicks are enough. Notes are optional. Add your name if you want me to know whose perspective this is.</p>
-          <div class="name-row"><label for="name">Name · optional</label><input id="name" maxlength="120" type="text" autocomplete="name"></div>
+          <p>Four clicks are enough. Notes are optional. Add your email if you want me to know whose perspective this is.</p>
+          <div class="name-row"><label for="email">Email · optional</label><input id="email" maxlength="254" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com"></div><p style="margin-top:8px;font-size:12px;color:#a9a49a">Used only to identify your response.</p>
           <p class="status" id="status" aria-live="polite"></p>
           <div class="fallback" id="fallback"><button id="copyFallback" type="button" class="secondary">Copy answers instead</button></div>
         </div>
@@ -256,7 +256,7 @@ footer strong{color:var(--ink)}
 </footer>
 <script>
 (function(){
-  const VERSION='2026-09-v1';
+  const VERSION='2026-09-v2';
   const ENDPOINT='https://hwarlqjoeuzwzjrzobbw.supabase.co/functions/v1/submit-edelki-feedback';
   const SUBMISSION_ID=(globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : String(Date.now())+'-'+Math.random().toString(36).slice(2);
   const form=document.getElementById('surveyForm');
@@ -284,7 +284,7 @@ footer strong{color:var(--ink)}
     const out={
       surveyVersion:VERSION,
       submissionId:SUBMISSION_ID,
-      respondent:val('name'),
+      respondentEmail:val('email'),
       source:new URLSearchParams(location.search).get('source')||'',
       q1:getSelected('q1'), q1Note:val('q1_note'),
       q2:getSelected('q2'), q2Note:val('q2_note'),
@@ -297,7 +297,7 @@ footer strong{color:var(--ink)}
   function responseText(){
     const p=payload();
     const lines=['EDELKI — Website perspective'];
-    if(p.respondent) lines.push('Name: '+p.respondent);
+    if(p.respondentEmail) lines.push('Email: '+p.respondentEmail);
     lines.push('');
     ['q1','q2','q3','q4'].forEach((q,i)=>{
       const a=p[q];
